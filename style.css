@@ -1,0 +1,141 @@
+@import "node_modules/ol/ol.css";
+
+:root {
+--mapwidth : 100vw;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+#map {
+  /* position: inherit;
+  top: 0;
+  bottom: 0;
+  width: 100%; */
+  height: 600px;
+    width: 100%;
+    padding: -calc(var(--bs-gutter-x) * .5);
+}
+#workArea{
+  display: noneX;
+  position: absolute;
+  cursor: move;
+  z-index: 9;;
+}
+.card-body .btn-close {
+  padding: calc(var(--bs-modal-header-padding-y) * .5) calc(var(--bs-modal-header-padding-x) * .5);
+  margin: calc(-.5 * var(--bs-modal-header-padding-y)) calc(-.5 * var(--bs-modal-header-padding-x)) calc(-.5 * var(--bs-modal-header-padding-y)) auto;
+}
+#layertree li > span {
+  cursor: pointer;
+}
+#layertree label {
+  display: block;
+  display: inline-block;
+}
+#mouse-position{
+  display: inline-block;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  margin-left: -20px;
+  border-radius: 50%;
+  border: 5px solid rgba(180, 180, 180, 0.6);
+  border-top-color: rgba(0, 0, 0, 0.6);
+  animation: spinner 0.6s linear infinite;
+}
+#progress {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+    box-shadow: 0px 0px 1px 2px rgb(255 204 0);
+    width: auto;
+    background: #001dff;
+  transition: width 250ms;
+  z-index: 9;
+}
+.legendimg {
+  display: inline-block;
+}
+.custom-Measure{
+  position: absolute;
+    right: 0;
+    top: 50px;
+    /* background: red;
+    height: 50px;
+    width: 50px;
+    z-index: 9; */
+}
+.custom-info{    
+  right: 0;
+  top: 75px;
+}
+
+.fieldset { 
+  display: block !important;
+}
+.accordion-button {
+  color: #ffffff;
+  background-color: #fff0;
+}
+.accordion-item {
+  color: white;background-color: #fff0;
+}
+
+      .ol-popup {
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #cccccc;
+        bottom: 12px;
+        left: -50px;
+        min-width: 280px;
+      }
+      .ol-popup:after, .ol-popup:before {
+        top: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+      .ol-popup:after {
+        border-top-color: white;
+        border-width: 10px;
+        left: 48px;
+        margin-left: -10px;
+      }
+      .ol-popup:before {
+        border-top-color: #cccccc;
+        border-width: 11px;
+        left: 48px;
+        margin-left: -11px;
+      }
+      .ol-popup-closer {
+        text-decoration: none;
+        position: absolute;
+        top: 2px;
+        right: 8px;
+      }
+      .ol-popup-closer:after {
+        content: "✖";
+      }

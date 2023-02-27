@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en" class="semi-dark">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--favicon-->
+	<link rel="icon" href="assets/images/favicon-32x32.png" type="image/png" />
+	<!--plugins-->
+	<!-- <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
+	<link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+	 -->
+	<link href="assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+	<link href="assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+	<!-- loader-->
+	<!-- <link href="assets/css/pace.min.css" rel="stylesheet" />
+	<script src="assets/js/pace.min.js"></script> -->
+	<!-- Bootstrap CSS -->
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="assets/css/bootstrap-extended.css" rel="stylesheet">
+	<!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet"> -->
+	<link href="assets/css/app.css" rel="stylesheet">
+	<link href="assets/css/icons.css" rel="stylesheet">
+	<link rel="stylesheet" href="assets/css/semi-dark.css" />
+	<link href="https://cdn.jsdelivr.net/npm/@kirtandesai/ol-geocoder@latest/dist/ol-geocoder.min.css" rel="stylesheet">
+	<title>Admin Panel</title>
+</head>
+
+<body class="semi-dark">
+	<!--wrapper-->
+	<div class="wrapper">
+		<!--sidebar wrapper -->
+		<div class="sidebar-wrapper" data-simplebar="true">
+			<div class="sidebar-header">
+				<div>
+					<i class="bx bxs-car-crash bx3"></i>
+				</div>
+				<div>
+					<h4 class="logo-text">GIS</h4>
+				</div>
+				<div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
+				</div>
+			</div>
+			<!--navigation-->
+			<ul class="metismenu" id="menu">
+
+				<li><a ef="javascript:;">
+						<div class="parent-icon"><i class="bx bx-home-circle"></i></div>
+						<div class="menu-title">Dashboard</div>
+					</a></li>
+				<li><a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='bx bx-layer'></i></div>
+						<div class="menu-title">Layers</div>
+					</a>
+					<ul>
+						<li id="layertree">
+							<ul>
+								<li class="d-none"><span>OSM layer</span>
+									<fieldset class="fieldset" id="layer0">
+										<label class="checkbox" for="visible0"> <input id="visible0" class="visible"
+												type="checkbox" />
+										</label>
+										<label> <input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								</li>
+								<li class="d-none"><span>Google Sattelite</span>
+									<fieldset class="fieldset" id="layer1">
+										<label class="checkbox" for="visible1"> <input id="visible1" class="visible"
+												type="checkbox" />
+										</label>
+										<label> <input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								</li>
+								<li class="d-none"><span>Google Hybrid</span>
+									<fieldset class="fieldset" id="layer2">
+										<label class="checkbox" for="visible2"> <input id="visible2" class="visible"
+												type="checkbox" />
+										</label>
+										<label> <input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								</li>
+								<li class="d-none"><span>Google Streets</span>
+									<fieldset class="fieldset" id="layer3">
+										<label class="checkbox" for="visible3"> <input id="visible3" class="visible"
+												type="checkbox" />
+										</label>
+										<label> <input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								</li>
+								<li class="d-none"><span>Google Terrain</span>
+									<fieldset class="fieldset" id="layer4">
+										<label class="checkbox" for="visible4"> <input id="visible4" class="visible"
+												type="checkbox" />
+										</label>
+										<label> <input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								</li>
+								<li class="d-none"><span>Bing Aerial Map</span>
+									<fieldset class="fieldset" id="layer5">
+										<label class="checkbox" for="visible5"> <input id="visible5" class="visible"
+												type="checkbox" />
+										</label>
+										<label> <input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								</li>
+								<li> <span>Administrative Layers</span>
+									<fieldset class="fieldset" id="layer6">
+										<label class="checkbox" for="visible6">
+											<input id="visible6" class="visible" type="checkbox" />
+										</label>
+										<label>
+											<input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+									<ul>
+										<li>
+											<span>State Boundary</span>
+											<fieldset class="fieldset" id="layer60">
+												<img class="legendimg"
+													src="http://localhost:8880/geoserver/UAVDATA/wms?REQUEST=GetLegendGraphic&amp;VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=15&amp;HEIGHT=15&amp;LAYER=UAVDATA:State_Boundary_Jhar0">
+												<label class="checkbox" for="visible60">
+													<input id="visible60" class="visible" type="checkbox"
+														data-layrname="0_stateBoundary" />
+												</label>
+												<label>
+													<input class="opacity" type="range" min="0" max="1" step="0.01" />
+												</label>
+											</fieldset>
+										</li>
+										<li>
+											<span>District Boundary</span>
+											<fieldset class="fieldset" id="layer61">
+												<label class="checkbox" for="visible61">
+													<input id="visible61" class="visible" type="checkbox"
+														data-layrname="1_districtBoundary" />
+												</label>
+												<label>
+													<input class="opacity" type="range" min="0" max="1" step="0.01" />
+												</label>
+											</fieldset>
+										</li>
+										<li>
+											<span>Panchayat Boundary</span>
+											<fieldset class="fieldset" id="layer62">
+												<label class="checkbox" for="visible62">
+													<input id="visible62" class="visible" type="checkbox"
+														data-layrname="2_panchayatBoundary" />
+												</label>
+												<label>
+													<input class="opacity" type="range" min="0" max="1" step="0.01" />
+												</label>
+											</fieldset>
+										</li>
+										<li>
+											<span>Village Boundary</span>
+											<fieldset class="fieldset" id="layer63">
+												<label class="checkbox" for="visible63">
+													<input id="visible63" class="visible" type="checkbox"
+														data-layrname="3_villageBoundary" />
+												</label>
+												<label>
+													<input class="opacity" type="range" min="0" max="1" step="0.01" />
+												</label>
+											</fieldset>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li><a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='bx bx-cog'></i></div>
+						<div class="menu-title">Tools</div>
+					</a>
+					<ul>
+						<li>
+							<div class="accordion" id="accordionExample">
+								<div class="accordion-item">
+									<h2 class="accordion-header" id="headingOne">
+										<button class="accordion-button" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapseOne" aria-expanded="true"
+											aria-controls="collapseOne">
+											<i class='bx bx-ruler'></i> Measurement
+										</button>
+									</h2>
+									<div id="collapseOne" class="accordion-collapse collapse show"
+										aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+										<div class="accordion-body">
+											<label for="type">Measurement type </label>
+											<select id="Measurementtype">
+											  <option value="LineString">Length (LineString)</option>
+											  <option value="Polygon">Area (Polygon)</option>
+											</select>
+											<br/>
+											<label for="segments">Show segment lengths:</label>
+											<input type="checkbox" id="Measurementsegments" checked />
+											<br/>
+											<label for="clear">Clear previous measure:</label>
+											<input type="checkbox" id="Measurementclear" checked />
+											<div class="row">
+												<div class="col-md-12">
+													<div id="startMeasure" class="btn btn-sm btn-info">Start</div><div id="EndMeasure" class="btn btn-sm btn-secondary">End</div>
+												</div>
+												<div class="col-md-12"> 
+													<div id="measurementLength"></div>
+												</div>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="accordion-item">
+									<h2 class="accordion-header" id="headingTwo">
+										<button class="accordion-button collapsed" type="button"
+											data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+											aria-expanded="false" aria-controls="collapseTwo">
+											<i class='bx bx-layer-plus'></i> Add Data
+										</button>
+									</h2>
+									<div id="collapseTwo" class="accordion-collapse collapse"
+										aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+										<div class="accordion-body">
+											<div class="row g-3X align-items-centerX">
+												<div class="col-auto">
+												  <label for="selectKMLfile" class="col-form-label">Add KML</label>
+												</div>
+												<div class="col-auto">
+													<input id="selectKMLfile" class="form-control-sm" type="file" accept=".kml">
+												</div> 
+											  </div>
+											  <div class="row g-3X align-items-centerX">
+												<div class="col-auto">
+												  <label for="selectGISfile" class="col-form-label">Add GPX, GeoJSON, IGC, KML, TopoJSON</label>
+												</div>
+												<div class="col-auto">
+													<input id="selectGISfile" class="form-control-sm" type="file" accept=".kml,.gpx,.geojson,.igc,.json">
+												</div> 
+											  </div>
+											  <label><input type="checkbox" id="extractstyles" checked /> Extract styles from KML</label>
+											  <h6 class="text-white">
+												or Just Drag & Drop file over map.
+											  </h6>
+											  <div class="row g-3X align-items-centerX">
+												<div class="col-auto">
+												  <label for="selectSHPfile" class="col-form-label">Add Shapefile</label>
+												</div>
+												<div class="col-auto">
+													<input id="selectSHPfile" class="form-control-sm" type="file" accept=".zip,.shp,.dbf">
+												</div> 
+											  </div>
+											  <div class="row mt-3">
+												<span class="btn btn-sm btn-secondary" id="removeOnFLyData">Remove Preview</span>
+											  </div>
+										</div>
+									</div>
+								</div>
+								<div class="accordion-item">
+									<h2 class="accordion-header" id="headingThree">
+										<button class="accordion-button collapsed" type="button"
+											data-bs-toggle="collapse" data-bs-target="#collapseThree"
+											aria-expanded="false" aria-controls="collapseThree">
+											<i class='bx bx-search-alt'></i> Search Location
+										</button>
+									</h2>
+									<div id="collapseThree" class="accordion-collapse collapse"
+										aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+										<div class="accordion-body">
+											<div class="row">
+												<div class="col-9" id="geocodeDIv"> 
+													<div id="geocodeBtn" class="btn btn-sm btn-info">Search Address on Map(Geocode)</div> 
+												</div>
+												<div class="col-3"> 
+													<div id="geocodeClearBtn" class="btn btn-sm btn-dark">Clear</div> 
+												</div>
+											</div>
+											<div class="row mt-3">
+												<div class="col-12"> 
+													<p><strong>Geolocate Yourself:</strong></p>												
+												<label for="track">
+													track position
+													<input id="track" type="checkbox"/>
+												</label>
+												<p>
+													position accuracy : <code id="accuracy"></code>&nbsp;&nbsp;
+													altitude : <code id="altitude"></code>&nbsp;&nbsp;
+													altitude accuracy : <code id="altitudeAccuracy"></code>&nbsp;&nbsp;
+													heading : <code id="heading"></code>&nbsp;&nbsp;
+													speed : <code id="speed"></code>
+												</p>
+											</div>
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="accordion-item">
+									<h2 class="accordion-header" id="heading4">
+										<button class="accordion-button collapsed" type="button"
+											data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false"
+											aria-controls="collapse4">
+											<i class='bx bx-printer'></i> Print
+										</button>
+									</h2>
+									<div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4"
+										data-bs-parent="#accordionExample">
+										<div class="accordion-body">
+											<form id="printForm" class="form">
+												<label for="format">Page size </label>
+												<select id="format" class="form-select">
+												  <option value="a0">A0 (slow)</option>
+												  <option value="a1">A1</option>
+												  <option value="a2">A2</option>
+												  <option value="a3">A3</option>
+												  <option value="a4" selected>A4</option>
+												  <option value="a5">A5 (fast)</option>
+												</select>
+												<label for="resolution">Resolution </label>
+												<select id="resolution" class="form-select">
+												  <option value="72">72 dpi (fast)</option>
+												  <option value="150">150 dpi</option>
+												  <option value="200" selected>200 dpi</option>
+												  <option value="300">300 dpi (slow)</option>
+												</select>
+												<label for="scale">Scale </label>
+												<select id="scale" class="form-select">
+												  <option value="500">1:500000</option>
+												  <option value="250" selected>1:250000</option>
+												  <option value="100">1:100000</option>
+												  <option value="50">1:50000</option>
+												  <option value="25">1:25000</option>
+												  <option value="10">1:10000</option>
+												</select>
+											  </form>
+											  <button id="export-pdf">Export PDF</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</li>
+				<li><a href="javascript:logout();">
+						<div class="parent-icon"><i class="bx bx-log-out-circle"></i></div>
+						<div class="menu-title">Logout</div>
+					</a></li>
+				<li><a href="javascript:;" class="has-arrowX">
+						<div class="parent-icon"><i class='bx bx-radio-circle-marked'></i></div>
+						<div class="menu-title">
+							<div id="info"></div>
+						</div>
+					</a>
+				</li>
+				<li><a>
+						<div class="parent-icon"><i class='bx bxs-pointer'></i></div>
+						<div class="menu-title">
+							<div id="mouse-position"></div>
+						</div>
+					</a>
+				</li>
+				<li><a>
+					<div class="parent-icon"><i class='bx bxs-polygon'></i></div>
+					<div class="menu-title">
+						Feature Selection
+						<span id="mapInfostatus">&nbsp;</span>
+						<select id="type">
+							<option value="singleselect" selected>Single Select</option>
+							<option value="multiselect">Multi Select</option>
+							<option value="singleselect-hover">Single Select on hover</option>
+						  </select>
+					</div>
+				</a>
+			</li>
+			</ul>
+			<!--end navigation-->
+		</div>
+		<!--end sidebar wrapper -->
+		<!--start header -->
+		<header>
+			<div class="topbar d-flex align-items-center">
+				<nav class="navbar navbar-expand" id="menu1">
+					<div class="mobile-toggle-menu"><i class="bx bx-menu"></i> </div>
+					<div class="top-menu">
+						<h4> Accident Prone Roads : GIS</h4>
+					</div>
+					<div class="top-menu ms-auto">
+						<ul class="navbar-nav align-items-center">
+							<li class="nav-item dropdown dropdown-large">
+								<a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button"
+									data-bs-toggle="dropdown" aria-expanded="false"> <i class="bx bx-category"></i>
+									Basemaps</a>
+								<div class="dropdown-menu dropdown-menu-end">
+									<div class="row row-cols-3 g-3 p-3">
+										<div class="col text-center" onclick="loadbasemap('0')">
+											<div class="app-box mx-auto bg-gradient-cosmic text-white"><i
+													class='bx bxs-map-alt'></i>
+											</div>
+											<div class="app-title">OSM</div>
+										</div>
+										<div class="col text-center" onclick="loadbasemap('1')">
+											<div class="app-box mx-auto bg-gradient-burning text-white"><i
+													class='bx bxs-map-alt'></i>
+											</div>
+											<div class="app-title">Sattelite</div>
+										</div>
+										<div class="col text-center" onclick="loadbasemap('2')">
+											<div class="app-box mx-auto bg-gradient-lush text-white"><i
+													class='bx bxs-map-alt'></i></div>
+											<div class="app-title">Hybrid</div>
+										</div>
+										<div class="col text-center" onclick="loadbasemap('3')">
+											<div class="app-box mx-auto bg-gradient-kyoto text-dark"><i
+													class='bx bx-map-pin'></i>
+											</div>
+											<div class="app-title">Streets</div>
+										</div>
+										<div class="col text-center" onclick="loadbasemap('4')">
+											<div class="app-box mx-auto bg-gradient-blues text-dark"><i
+													class='bx bxs-map-alt'></i></div>
+											<div class="app-title">Terrain</div>
+										</div>
+										<div class="col text-center" onclick="loadbasemap('5')">
+											<div class="app-box mx-auto bg-gradient-moonlit text-white"><i
+													class='bx bxs-map-alt'></i></div>
+											<div class="app-title">Bing</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<!-- <li class="nav-item dropdown dropdown-large">
+								<a class="nav-link dropdown-togglex dropdown-toggle-nocaretx" href="#" role="button"
+									data-bs-toggle="dropdownx" aria-expanded="false"> <i class="bx bx-category"></i>
+									Notification Section</a>
+							</li> -->
+						</ul>
+					</div>
+
+
+
+					<div class="user-box dropdown"><a
+							class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
+							role="button" data-bs-toggle="dropdown" aria-expanded="false"><img
+								src="assets/images/avatars/avatar-2.png" class="user-img" alt="user avatar">
+							<div class="user-info ps-3">
+								<p class="user-name mb-0">Admin</p>
+								<p class="designattion mb-0">Administrator</p>
+							</div>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end">
+							<li><a class="dropdown-item" href="javascript:;"><i
+										class="bx bx-user"></i><span>Profile</span></a></li>
+							<li><a class="dropdown-item" href="javascript:;"><i
+										class="bx bx-cog"></i><span>Settings</span></a></li>
+							<li><a class="dropdown-item" href="javascript:;"><i
+										class="bx bx-home-circle"></i><span>Dashboard</span></a></li>
+							<li><a class="dropdown-item" href="javascript:;"><i
+										class="bx bx-dollar-circle"></i><span>Earnings</span></a></li>
+							<li><a class="dropdown-item" href="javascript:;"><i
+										class="bx bx-download"></i><span>Downloads</span></a>
+							</li>
+							<li>
+								<div class="dropdown-divider mb-0"></div>
+							</li>
+							<li><a class="dropdown-item" href="javascript:logout();"><i
+										class="bx bx-log-out-circle"></i><span>Logout</span></a></li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+		</header>
+		<!--end header -->
+		<!--start page wrapper -->
+		<div class="page-wrapper">
+			<div class="page-content">
+				<div id="mapDiv"></div>
+				<div id="progress"></div>
+				<div id="toggleDataDiv"><i class='bx bx-table'></i><span> Data Table</span></div>
+				<div id="dataTableDiv">
+					<div id="tblDiv"></div>
+					<div id='hideTableDiv' style="float: right;font-size: 20px;"><i class='bx bx-window-close'></i>
+					</div>
+				</div>
+				<div id="popup" class="ol-popup">
+					<a href="#" id="popup-closer" class="ol-popup-closer"></a>
+					<div id="popup-content"></div>
+				  </div>
+			</div>
+		</div>
+		<!--end page wrapper -->
+		<!--start overlay-->
+		<div class="overlay toggle-icon"></div>
+		<!--end overlay-->
+		<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i
+				class='bx bxs-up-arrow-alt'></i></a>
+		<!--End Back To Top Button-->
+		<footer class="page-footer">
+			<p class="mb-0">Copyright © 2023. All right reserved. </p>
+		</footer>
+	</div>
+
+	</div>
+	<!--end wrapper-->
+	<!--start switcher-->
+
+	<!--end switcher-->
+	<!-- Bootstrap JS -->
+	<script src="assets/js/bootstrap.bundle.min.js"></script>
+	<!--plugins-->
+	<script src="assets/js/jquery.min.js"></script>
+	<!-- <script src="assets/plugins/simplebar/js/simplebar.min.js"></script> -->
+	<script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
+	<script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+	<script src="https://gipong.github.io/shp2geojson.js/lib/jszip.js"></script>
+    <script src="https://gipong.github.io/shp2geojson.js/lib/jszip-utils.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.1/proj4.js"></script>
+    <script src="https://gipong.github.io/shp2geojson.js/preprocess.js"></script>
+    <script src="https://gipong.github.io/shp2geojson.js/preview.js"></script>
+	<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+	<!-- 
+	<script src="https://cdn.jsdelivr.net/npm/ol-geocoder"></script> -->
+	<script src="assets/js/app.js"></script>
+	<script type="module" src="./main.js"></script>
+</body>
+
+</html>
