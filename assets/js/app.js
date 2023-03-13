@@ -1,3 +1,8 @@
+if(sessionStorage.getItem("accessTokenAccident") && sessionStorage.getItem("accessTokenAccident")==="" || sessionStorage.length==='0'){
+	sessionStorage.clear();
+	location.replace("index.html");
+}
+
 $(function() {
 	"use strict";
 
@@ -60,6 +65,96 @@ $(document).on('click',"#hideTableDiv", function(){
 });
 
 
+$.get("http://127.0.0.1:5000/getDistricts",function(data){
+	console.log(data);
+	let string ='<option value="">==Select District==</option>';
+	data.forEach(row => {
+		string+="<option value='"+row[3]+"'>"+row[0]+"</option>";
+	});
+	 $("#dname").html(string);
+});
+// $.get("http://localhost:8880/geoserver/UAVDATA/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=UAVDATA%3ADistrict_Boundary_Jharkhand&maxfeatures=50&outputformat=application%2Fjson",function(data){
+// 	console.log(data);
+// 	let string ='<option value="">==Select District==</option>';
+// 	data.features.forEach(row => {
+// 		string+="<option data-bbox='"+row.properties.bbox+"' value='"+row.geometry.coordinates+"'>"+row.properties.dtname+"</option>";
+// 	});
+// 	 $("#dname").html(string);
+// });
+
+$(document).on('change',"#dname", function(){
+	//let dataObj={};
+	//dataObj.push({'dtname':$(this).find('option:selected').text()})
+	//dataObj["dtname"]=$(this).find('option:selected').text();
+	$.ajax({
+		url:"http://127.0.0.1:5000/getBlocks",
+		type: "GET",
+		data: {dtname: $(this).find('option:selected').text()},
+		///JSON.stringify(dataObj),
+		//{dtname: $(this).find('option:selected').text()},
+		dataType: "json", 
+		success: function(data) {
+			console.log(data);
+			let string ='<option value="">==Select Block==</option>';
+			data.forEach(row => {
+				string+="<option value='"+row[3]+"'>"+row[0]+"</option>";
+			});
+			$("#bname").html(string);
+		}
+});
+
+
+	// $.get("http://127.0.0.1:5000/getBlocks",{"dtname":$(this).text()},function(data){
+	// 	console.log(data);
+	// 	let string ='<option value="">==Select District==</option>';
+	// 	data.forEach(row => {
+	// 		string+="<option value='"+row[3]+"'>"+row[0]+"</option>";
+	// 	});
+	// 	$("#getBlocks").html(string);
+	// });
+});
+$(document).on('change',"#bname", function(){
+	//let dataObj={};
+	//dataObj.push({'dtname':$(this).find('option:selected').text()})
+	//dataObj["dtname"]=$(this).find('option:selected').text();
+	$.ajax({
+		url:"http://127.0.0.1:5000/getPanchayats",
+		type: "GET",
+		data: {dtname: $('#dname option:selected').text(), bname: $(this).find('option:selected').text()},
+		///JSON.stringify(dataObj),
+		//{dtname: $(this).find('option:selected').text()},
+		dataType: "json", 
+		success: function(data) {
+			console.log(data);
+			let string ='<option value="">==Select Panchayat==</option>';
+			data.forEach(row => {
+				string+="<option value='"+row[3]+"'>"+row[0]+"</option>";
+			});
+			$("#pname").html(string);
+		}
+});
+});
+$(document).on('change',"#pname", function(){
+	//let dataObj={};
+	//dataObj.push({'dtname':$(this).find('option:selected').text()})
+	//dataObj["dtname"]=$(this).find('option:selected').text();
+	$.ajax({
+		url:"http://127.0.0.1:5000/getVillages",
+		type: "GET",
+		data: {dtname: $('#dname option:selected').text(), bname: $('#bname option:selected').text(), pname: $(this).find('option:selected').text()},
+		///JSON.stringify(dataObj),
+		//{dtname: $(this).find('option:selected').text()},
+		dataType: "json", 
+		success: function(data) {
+			console.log(data);
+			let string ='<option value="">==Select Village==</option>';
+			data.forEach(row => {
+				string+="<option value='"+row[3]+"'>"+row[0]+"</option>";
+			});
+			$("#vname").html(string);
+		}
+});
+});
 });
 function loadbasemap(basemapId)
 {
@@ -68,4 +163,11 @@ function loadbasemap(basemapId)
 	$("#layertree #visible"+basemapId).click()
 	$(this).attr("style","background: #00932c;");
 	
+}
+
+
+function logout(){
+	//alert("Logout");
+	sessionStorage.clear();
+	location.replace("index.html");
 }

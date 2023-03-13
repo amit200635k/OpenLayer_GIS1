@@ -70,10 +70,41 @@ import Geolocation from 'ol/Geolocation.js';
 import Overlay from 'ol/Overlay.js';
 import {toStringHDMS} from 'ol/coordinate.js';
 import Geocoder from "@kirtandesai/ol-geocoder";
-
-
+ //import PdfPrinter from 'ol-pdf-printer';
+ import WKT from 'ol/format/WKT.js';
 let dragAndDropInteraction;
 let selection = {};
+localStorage.setItem("infoStatus", "ON");
+
+class HomeControl extends Control {
+  /**
+   * @param {Object} [opt_options] Control options.
+   */
+  constructor(opt_options) {
+    const options = opt_options || {};
+
+    const button = document.createElement('button');
+    button.innerHTML = '<i class="bx bx-home-alt"></i>';
+
+    const element = document.createElement('div');
+    element.className = 'home-link ol-unselectable ol-control';
+    element.appendChild(button);
+
+    super({
+      element: element,
+      target: options.target,
+    });
+
+    button.addEventListener('click', this.handleHomeLink.bind(this), false);
+  }
+
+  handleHomeLink() {
+    //alert("Home Btn Clicked")
+    //this.getMap().setView({center: [9502406.742993, 2677375.166725]});
+    map.getView().setCenter([9502406.742993, 2677375.166725]);
+  }
+}
+
 class RotateNorthControl extends Control {
   /**
    * @param {Object} [opt_options] Control options.
@@ -235,7 +266,7 @@ const stateBoundary = new TileLayer({
       'TILED': true
     },
     serverType: 'geoserver',
-    //crossOrigin: 'anonymous',
+    crossOrigin: 'anonymous',
     // Countries have transparency, so do not fade tiles:
     //transition: 0,
   }),
@@ -249,7 +280,7 @@ const districtBoundary = new TileLayer({
       'LAYERS': '	UAVDATA:District_Boundary_Jharkhand',
       'TILED': true
     },
-    serverType: 'geoserver',
+    serverType: 'geoserver',crossOrigin: 'anonymous',
   }),
   visible: false,
 });
@@ -260,7 +291,7 @@ const panchayatBoundary = new TileLayer({
       'LAYERS': 'UAVDATA:Panchayat_20Boundary_Jharkhand',
       'TILED': true
     },
-    serverType: 'geoserver',
+    serverType: 'geoserver',crossOrigin: 'anonymous',
   }),
   visible: false,
 });
@@ -271,7 +302,7 @@ const villageBoundary = new TileLayer({
       'LAYERS': 'UAVDATA:Village_Boundary_Jhar0',
       'TILED': true
     },
-    serverType: 'geoserver',
+    serverType: 'geoserver',crossOrigin: 'anonymous',
   }),
   visible: false,
 });
@@ -283,7 +314,7 @@ const view = new View({
   center: [9502406.742993, 2677375.166725],
   //center: fromLonLat([85.23, 23.81566]),
   //center: transform([85.23, 23.81566], 'EPSG:4326', 'EPSG:4326'),
-  zoom: 7,
+  zoom: 7.5,
   //rotation: 1,
 });
 //used for shape to geojson 
@@ -298,7 +329,11 @@ const vector = new VectorLayer({
   },
 });
 
-
+// var updateLegend = function (resolution) {
+//   var graphicUrl = wmsSource.getLegendUrl(resolution);
+//   var img = document.getElementById("legend");
+//   img.src = graphicUrl;
+// };
 
 const container = document.getElementById('popup');
 const content = document.getElementById('popup-content');
@@ -322,39 +357,44 @@ const map = new Map({
     //   units: 'metric',
     // }),
     mousePositionControl,
+    
     // new AddMeasureTool(),
     //new viewInfoTool()
+    new HomeControl()
   ]),
   // controls: defaultControls().extend([new RotateNorthControl()]),
   layers: [
 
     new TileLayer({
-      source: new OSM(),
+      source: new OSM({
+        crossOrigin: 'anonymous',
+      }),
     }),
     new TileLayer({
       source: new OSM({
         'url': 'http://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
+        crossOrigin: 'anonymous',
       }),
       visible: false,
       preload: Infinity,
     }),
     new TileLayer({
       source: new OSM({
-        'url': 'http://mt1.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
+        'url': 'http://mt1.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',crossOrigin: 'anonymous',
       }),
       visible: false,
       preload: Infinity,
     }),
     new TileLayer({
       source: new OSM({
-        'url': 'http://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+        'url': 'http://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',crossOrigin: 'anonymous',
       }),
       visible: false,
       preload: Infinity,
     }),
     new TileLayer({
       source: new OSM({
-        'url': 'http://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',
+        'url': 'http://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',crossOrigin: 'anonymous',
       }),
       visible: false,
       preload: Infinity,
@@ -364,6 +404,7 @@ const map = new Map({
       source: new BingMaps({
         key: 'dY07ihXoIp15X3uz2p7u~XhaOOszGD1yRh0iA2siECg~ApUkGF8SU2HBMsmFOMX6wuknO-ehbjd919j8pD6Jg-fWqeJL97x3K3KtdApb7xTH',
         imagerySet: 'Aerial',
+        crossOrigin: 'anonymous',
       }),
       visible: false,
       name: 'bingmaps'
@@ -555,6 +596,7 @@ geocoder.on('addresschosen', function (evt) {
 
 
 map.on('singleclick', async function (evt) {
+  localStorage.setItem("infoStatus", "ON");
   if (localStorage.getItem("infoStatus") === "ON") {
     console.log(map);
     let clickedPoint4326 = coord3857To4326(evt.coordinate);
@@ -1291,8 +1333,59 @@ new VectorLayer({
 });
 
 function populatePopupContent(featureData){
-  return "ok";
+let contentBox = '<div class="accordion" id="accordionExample">';
+contentBox += '<div class="accordion-item">';
+contentBox += '  <h2 class="accordion-header" id="headingOne">';
+contentBox += '<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">';
+contentBox += 'Accordion Item #1 ';
+contentBox += '</button>';
+contentBox += '</h2>';
+contentBox += '<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">';
+contentBox += '<div class="accordion-body">';
+contentBox += '<strong>This is the first items accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. Its also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.';
+contentBox += '</div>';
+contentBox += '</div>';
+contentBox += '</div>';
+contentBox += '<div class="accordion-item">';
+contentBox += '<h2 class="accordion-header" id="headingTwo">';
+contentBox += '<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">';
+contentBox += 'Accordion Item #2';
+contentBox += '</button>';
+contentBox += '</h2>';
+contentBox += '<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">';
+contentBox += '<div class="accordion-body">';
+contentBox += '<strong>This is the second item\'s accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It\'s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.';
+contentBox += '    </div>';
+contentBox += '</div>';
+contentBox += '</div>';
+contentBox += '<div class="accordion-item">';
+contentBox += '<h2 class="accordion-header" id="headingThree">';
+contentBox += '<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">';
+contentBox += 'Accordion Item #3';
+contentBox += '</button>';
+contentBox += '</h2>';
+contentBox += '<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">';
+contentBox += '<div class="accordion-body">';
+contentBox += '<strong>This is the third item\'s accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It\'s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.';
+contentBox += '    </div>';
+contentBox += '</div>';
+contentBox += '</div>';
+contentBox += '</div>';
+  
+ // return contentBox;
+
+let box11= '<ul class="nav nav-tabs" id="myTab" role="tablist"><li class="nav-item" role="presentation">  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button></li><li class="nav-item" role="presentation">  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Profile</button></li><li class="nav-item" role="presentation">  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Contact</button></li><li class="nav-item" role="presentation">  <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Disabled</button></li></ul><div class="tab-content" id="myTabContent"><div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">home...</div><div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">profile...</div><div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">contact...</div><div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">disabled........................</div></div>';
+return box11;
+
+
+
+
 }
+
+const raster = new TileLayer({
+  source: new OSM(),
+});
+
 import {getPointResolution, get as getProjection} from 'ol/proj.js';
 const scaleLine = new ScaleLine({bar: true, text: true, minWidth: 125});
 map.addControl(scaleLine);
@@ -1322,6 +1415,7 @@ const exportButton = document.getElementById('export-pdf');
 exportButton.addEventListener(
   'click',
   function () {
+   // map.addLayer(raster);
     exportButton.disabled = true;
     document.body.style.cursor = 'progress';
 
@@ -1332,45 +1426,258 @@ exportButton.addEventListener(
     const width = Math.round((dim[0] * resolution) / 25.4);
     const height = Math.round((dim[1] * resolution) / 25.4);
     const viewResolution = map.getView().getResolution();
-    const scaleResolution =
-      scale /
-      getPointResolution(
-        map.getView().getProjection(),
-        resolution / 25.4,
-        map.getView().getCenter()
-      );
-
+    const size = map.getSize();
+    // const scaleResolution =
+    //   scale /
+    //   getPointResolution(
+    //     map.getView().getProjection(),
+    //     resolution / 25.4,
+    //     map.getView().getCenter()
+    //   );
     map.once('rendercomplete', function () {
-      exportOptions.width = width;
-      exportOptions.height = height;
-      html2canvas(map.getViewport(), exportOptions).then(function (canvas) {
+      const mapCanvas = document.createElement('canvas');
+      mapCanvas.width = width;
+      mapCanvas.height = height;
+      const mapContext = mapCanvas.getContext('2d');
+      Array.prototype.forEach.call(
+        document.querySelectorAll('.ol-layer canvas'),
+        function (canvas) {
+          if (canvas.width > 0) {
+            const opacity = canvas.parentNode.style.opacity;
+            mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+            const transform = canvas.style.transform;
+            // Get the transform parameters from the style's transform matrix
+            const matrix = transform
+              .match(/^matrix\(([^\(]*)\)$/)[1]
+              .split(',')
+              .map(Number);
+            // Apply the transform to the export map context
+            CanvasRenderingContext2D.prototype.setTransform.apply(
+              mapContext,
+              matrix
+            );
+            mapContext.drawImage(canvas, 0, 0);
+          }
+        }
+      );
+      mapContext.globalAlpha = 1;
+      mapContext.setTransform(1, 0, 0, 1, 0, 0);
+      
+// let scaleprint = html2canvas(document.getElementsByClassName("ol-scale-bar"), {allowTaint: true, useCORS:true}).then(function (canvas) {document.getElementsByClassName("ol-scale-bar").append(canvas)});
+     // html2canvas(map.getViewport(), { useCORS:true}).then(function (canvas) {
         const pdf = new jspdf.jsPDF('landscape', undefined, format);
         pdf.addImage(
-          canvas.toDataURL('image/jpeg'),
+          mapCanvas.toDataURL('image/jpeg'),
           'JPEG',
           0,
           0,
           dim[0],
           dim[1]
         );
+        var img = document.getElementById("legend");
+        console.log(img)
+        pdf.addImage(img, "JPEG", 10, dim[1] - (img.height*0.5)-10, (img.width*0.5), (img.height*0.5));
+        pdf.text(10, 10, 'GIS Map - JSAC');
+        pdf.text(10, 20, 'GIS Map 11- JSAC11');
+        // pdf.addImage(scaleprint,'JPEG',(10+ (img.width*0.5)),0,scaleprint.width,scaleprint.height);
+        //pdf.text(10, 20, 'GIS Map 11- JSAC11');
+        //pdf.addImage("GIS Map - JSAC", "JPEG", 0, dim[1] - img.height-20, img.width, img.height);
         pdf.save('map.pdf');
-        // Reset original map size
-        scaleLine.setDpi();
-        map.getTargetElement().style.width = '';
-        map.getTargetElement().style.height = '';
-        map.updateSize();
-        map.getView().setResolution(viewResolution);
         exportButton.disabled = false;
         document.body.style.cursor = 'auto';
       });
-    });
 
-    // Set print size
-    scaleLine.setDpi(resolution);
-    map.getTargetElement().style.width = width + 'px';
-    map.getTargetElement().style.height = height + 'px';
-    map.updateSize();
-    map.getView().setResolution(scaleResolution);
+      scaleLine.setDpi(resolution);
+     const printSize = [width, height];
+    map.setSize(printSize);
+    const scaling = Math.min(width / size[0], height / size[1]);
+    map.getView().setResolution(viewResolution);
+ 
   },
   false
 );
+
+// var resolution = map.getView().getResolution();
+// updateLegend(resolution);
+
+// // Update the legend when the resolution changes
+// map.getView().on("change:resolution", function (event) {
+//   var resolution = event.target.getResolution();
+//   updateLegend(resolution);
+// });
+
+
+document.getElementById('setToHome').onclick=function(){
+  map.getView().setCenter([9502406.742993, 2677375.166725]);
+}
+
+// function exportPdf() {
+
+// var opt_options = {
+//   language: 'en',
+//   //i18n: {...}, // Custom translations. Default is according to selected language
+//   filename: 'Ol Pdf Printer',
+//   units: 'metric',
+//   style: {
+//       paperMargin: 10,
+//       brcolor: '#000000',
+//       bkcolor: '#273f50',
+//       txcolor: '#ffffff'
+//   },
+//   extraInfo: {
+//       date: true,
+//       url: true,
+//       scale: true
+//   },
+//   mapElements: {
+//       description: true,
+//       attributions: true,
+//       scalebar: true,
+//       compass: './assets/images/compass.svg'
+//   },
+//   watermark: {
+//       title: 'Ol Pdf Printer',
+//       titleColor: '#d65959',
+//       subtitle: 'https://github.com/GastonZalba/ol-pdf-printer',
+//       subtitleColor: '#444444',
+//       logo: false
+//   },
+//   paperSizes: [
+//       { size: [594, 420], value: 'A2' },
+//       { size: [420, 297], value: 'A3' },
+//       { size: [297, 210], value: 'A4', selected: true },
+//       { size: [210, 148], value: 'A5' }
+//   ],
+//   dpi: [
+//       { value: 72 },
+//       { value: 96 },
+//       { value: 150, selected: true },
+//       { value: 200 },
+//       { value: 300 }
+//   ],
+//   scales: [10000, 5000, 1000, 500, 250, 100, 50, 25, 10],
+//   mimeTypeExport: [
+//       { value: 'pdf', selected: true},
+//       { value: 'png' },
+//       { value: 'jpeg' },
+//       { value: 'webp' }
+//   ],
+//   dateFormat: undefined, // Use browser default
+//   ctrlBtnClass: '',
+//   modal: {
+//       animateClass: 'fade',
+//       animateInClass: 'show',
+//       transition: 300,
+//       backdropTransition: 150,
+//       templates: {
+//           dialog: '<div class="modal-dialog modal-dialog-centered"></div>',
+//           headerClose: `<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>`
+//       }
+//   }
+// }
+//   let pdfPrinter = new PdfPrinter(opt_options);
+
+//   map.addControl(pdfPrinter);
+
+// }
+//exportPdf(map);
+
+function convert4326_3587Coordinates(lon, lat) {
+  var x = (lon * 20037508.34) / 180;
+  var y = Math.log(Math.tan(((90 + lat) * Math.PI) / 360)) / (Math.PI / 180);
+  y = (y * 20037508.34) / 180;
+  return [x, y];
+}
+
+document.getElementById("dname").onchange = function(){
+ // alert($(this).val())
+
+ //console.log(convert4326_3587Coordinates(85.259,23.569));
+ // map.getView().setCenter(convert4326_3587Coordinates(85.259,23.569));
+ if($(this).val()!=""){
+  distzoom($(this).val(),"",true);
+ }
+ else
+ {
+  alert("Zoom to All District")
+  //distzoom(document.getElementById("dname").value,"",true);
+ }
+
+}
+document.getElementById("bname").onchange = function(){
+  // alert($(this).val())
+ 
+  //console.log(convert4326_3587Coordinates(85.259,23.569));
+  // map.getView().setCenter(convert4326_3587Coordinates(85.259,23.569));
+  if($(this).val()!=""){
+   distzoom($(this).val(),"",true);
+  }
+  else
+  {
+   alert("Zoom to Parent District")
+   distzoom(document.getElementById("dname").value,"",true);
+  }
+ 
+ }
+ document.getElementById("pname").onchange = function(){
+  // alert($(this).val())
+ 
+  //console.log(convert4326_3587Coordinates(85.259,23.569));
+  // map.getView().setCenter(convert4326_3587Coordinates(85.259,23.569));
+  if($(this).val()!=""){
+   distzoom($(this).val(),"",true);
+  }
+  else
+  {
+   alert("Zoom to Parent Block")
+   distzoom(document.getElementById("bname").value,"",true);
+  }
+ 
+ }
+ document.getElementById("vname").onchange = function(){
+  // alert($(this).val())
+ 
+  //console.log(convert4326_3587Coordinates(85.259,23.569));
+  // map.getView().setCenter(convert4326_3587Coordinates(85.259,23.569));
+  if($(this).val()!=""){
+   distzoom($(this).val(),"",true);
+  }
+  else
+  {
+   alert("Zoom to Parent Panchayat")
+   distzoom(document.getElementById("pname").value,"",true);
+  }
+ 
+ }
+let vectorsDataLyrs;
+function distzoom(dist_vector,dist_lab,flag)
+{
+ 
+  if(vectorsDataLyrs){
+    map.removeLayer(vectorsDataLyrs);
+  }
+
+    let parser = new WKT();
+    const feature = parser.readFeature(dist_vector,{dataProjection: 'EPSG:4326',featureProjection: 'EPSG:3857'});
+    
+    vectorsDataLyrs = new VectorLayer({
+      source: new VectorSource({
+        features: [feature],
+      }),
+      style: new Style({
+        fill: new Fill({
+          color: '#ffffcc82',
+        }),
+        stroke: new Stroke({
+          color: 'red',
+          width: '3pt',
+        }),
+      })
+    });
+    map.addLayer(vectorsDataLyrs);
+
+    const geometry = feature.getGeometry();
+    map.getView().fit(geometry, map.getSize(), {duration: 1000});
+    //var extent = vectorsDataLyrs.getSource().getExtent();
+    //map.getView().fitExtent(extent, map.getSize());              
+}
