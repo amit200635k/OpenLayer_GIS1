@@ -14,6 +14,7 @@ import {
   Group as LayerGroup
 } from 'ol/layer.js';
 import {
+  //useGeographic,
   addCoordinateTransforms,
   addProjection,
   transform,
@@ -46,6 +47,7 @@ import {
   Modify
 } from 'ol/interaction.js';
 import {
+  Circle,
   LineString,
   Point
 } from 'ol/geom.js';
@@ -63,7 +65,8 @@ import {
 //import KML from 'ol/format/KML.js';
 import DragAndDrop from 'ol/interaction/DragAndDrop.js';
 import {GPX, GeoJSON, IGC, KML, TopoJSON} from 'ol/format.js';
- 
+import Feature from 'ol/Feature.js';
+
 //geolocation
 import Geolocation from 'ol/Geolocation.js';
 
@@ -74,8 +77,9 @@ import Geocoder from "@kirtandesai/ol-geocoder";
  import WKT from 'ol/format/WKT.js';
 let dragAndDropInteraction;
 let selection = {};
+let location_vector;
 localStorage.setItem("infoStatus", "ON");
-
+//useGeographic();
 class HomeControl extends Control {
   /**
    * @param {Object} [opt_options] Control options.
@@ -105,6 +109,42 @@ class HomeControl extends Control {
   }
 }
 
+class ShowHideDataTable extends Control {
+  /**
+   * @param {Object} [opt_options] Control options.
+   */
+  constructor(opt_options) {
+    const options = opt_options || {};
+
+    const button = document.createElement('button');
+    button.innerHTML = '<i class="bx bx-table"></i>';
+
+    const element = document.createElement('div');
+    element.className = 'ShowHideDataTable ol-unselectable ol-control';
+    element.appendChild(button);
+
+    super({
+      element: element,
+      target: options.target,
+    });
+
+    button.addEventListener('click', this.handleClickEvent.bind(this), false);
+  }
+
+  handleClickEvent() {
+    //this.getMap().getView().setRotation(0);
+    if(document.getElementById("dataTableDiv").classList.contains("show")){
+      document.getElementById("dataTableDiv").classList.remove("show");
+    }
+    else{
+      document.getElementById("dataTableDiv").classList.add("show");
+    }
+    
+  }
+}
+document.getElementById("hideTableDiv").onclick=function(){
+  document.getElementById("dataTableDiv").classList.remove("show");
+}
 class RotateNorthControl extends Control {
   /**
    * @param {Object} [opt_options] Control options.
@@ -360,7 +400,8 @@ const map = new Map({
     
     // new AddMeasureTool(),
     //new viewInfoTool()
-    new HomeControl()
+    new HomeControl(),
+    new ShowHideDataTable()
   ]),
   // controls: defaultControls().extend([new RotateNorthControl()]),
   layers: [
@@ -503,6 +544,12 @@ document.getElementById('geocodeClearBtn').onclick=function(){
   geocoder.getSource().clear();
   content.innerHTML ="";
   container.style.display = "none";
+  map.removeLayer(location_vector);
+  map.getView().setCenter([9502406.742993, 2677375.166725]);
+  map.getView().animate({
+    zoom: 7.5,
+    duration: 250
+  });
 }
 // //Listen when an address is chosen
 geocoder.on('addresschosen', function (evt) {
@@ -521,7 +568,6 @@ geocoder.on('addresschosen', function (evt) {
   //   popup.show(evt.coordinate, evt.address.formatted);
   // }, 1000);
 });
-
 
 //swiper code
 // const swipe = document.getElementById('swipe');
@@ -1266,7 +1312,7 @@ function coord3857To4326(coord) {
 }
 
 //geolocation section
-import Feature from 'ol/Feature.js';
+
 const geolocation = new Geolocation({
   // enableHighAccuracy must be set to true to have the heading value.
   trackingOptions: {
@@ -1372,10 +1418,10 @@ contentBox += '</div>';
 contentBox += '</div>';
 contentBox += '</div>';
   
- // return contentBox;
+ return contentBox;
 
 let box11= '<ul class="nav nav-tabs" id="myTab" role="tablist"><li class="nav-item" role="presentation">  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button></li><li class="nav-item" role="presentation">  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Profile</button></li><li class="nav-item" role="presentation">  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Contact</button></li><li class="nav-item" role="presentation">  <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Disabled</button></li></ul><div class="tab-content" id="myTabContent"><div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">home...</div><div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">profile...</div><div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">contact...</div><div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">disabled........................</div></div>';
-return box11;
+//return box11;
 
 
 
@@ -1599,6 +1645,7 @@ document.getElementById("dname").onchange = function(){
  }
  else
  {
+  map.getView().setCenter([9502406.742993, 2677375.166725]).setZoom(6.5);
   alert("Zoom to All District")
   //distzoom(document.getElementById("dname").value,"",true);
  }
@@ -1680,4 +1727,112 @@ function distzoom(dist_vector,dist_lab,flag)
     map.getView().fit(geometry, map.getSize(), {duration: 1000});
     //var extent = vectorsDataLyrs.getSource().getExtent();
     //map.getView().fitExtent(extent, map.getSize());              
+}
+///////////////Lat Long Place on MAP////////////////////////
+document.getElementById("latlongMap").onclick=function(){
+  let lat = document.getElementById("lats").value;
+  let long = document.getElementById("longs").value;
+  let locAr = []
+  locAr.push(long);
+  locAr.push(lat);
+  
+  console.log(locAr.map(Number))
+  // console.log(convert4326_3587Coordinates(long,lat));
+  if(lat && long){
+    console.log("Making Maker")
+    //map.getView().setCenter([9502406.742993, 2677375.166725]);
+   // map.setView(new View({center:[9499633.537198717, 2676413.3235116196],zoom: 14.5}))
+ 
+       // const place =[85.2365663,23.2256245];
+    console.log(proj4("EPSG:4326", "EPSG:3857", [85.2365663,23.2256245]));
+        const point = new Point(proj4("EPSG:4326", "EPSG:3857", locAr.map(Number)));
+        
+        console.log(point);
+          
+        map.removeLayer(location_vector);      
+        location_vector= new VectorLayer({
+          source: new VectorSource({
+            features: [new Feature(point)], 
+          }),
+          style: {
+            'circle-radius': 9,
+            'circle-fill-color': 'red',
+          } 
+        }); 
+        map.addLayer(location_vector);
+      map.getView().setCenter(proj4("EPSG:4326", "EPSG:3857",locAr.map(Number)));
+        map.getView().animate({
+          zoom: 15,
+          duration: 250
+        })
+  }
+  else{
+    alert("Lat/Long Missing")
+  }
+  
+}
+
+/////////// DMS Lat Long on MAP //////////////////////
+document.getElementById("latlongDMSMap").onclick = function () {
+  alert("sfdsfsdfsdsdf");
+  if(document.getElementById("ltDegree") && document.getElementById("ltMinutes") && document.getElementById("ltSeconds") && document.getElementById("latdirection") && document.getElementById("lnDegree") && document.getElementById("lnMinutes") && document.getElementById("lnSeconds") && document.getElementById("lngdirection") )
+  {
+    let ltdegree = parseFloat(document.getElementById("ltDegree").value);
+    let ltminutes = parseFloat(document.getElementById("ltMinutes").value);
+    let ltseconds =  parseFloat(document.getElementById("ltSeconds").value);
+    let latdir =  document.getElementById("latdirection").value;
+    let lndegree =  parseFloat(document.getElementById("lnDegree").value);
+    let lnminutes = parseFloat(document.getElementById("lnMinutes").value);
+    let lnseconds =  parseFloat(document.getElementById("lnSeconds").value);
+    let londir =  document.getElementById("lngdirection").value;
+    let lat = ConvertDMSToDD(ltdegree,ltminutes,ltseconds,latdir);
+    let lng = ConvertDMSToDD(lndegree,lnminutes,lnseconds,londir);
+    let locAr = []
+    locAr.push(lng);
+    locAr.push(lat);
+    const point = new Point(proj4("EPSG:4326", "EPSG:3857", locAr.map(Number)));
+        
+        console.log(point);
+          
+        map.removeLayer(location_vector);      
+        location_vector= new VectorLayer({
+          source: new VectorSource({
+            features: [new Feature(point)], 
+          }),
+          style: {
+            'circle-radius': 9,
+            'circle-fill-color': 'red',
+          } 
+        }); 
+        map.addLayer(location_vector);
+      map.getView().setCenter(proj4("EPSG:4326", "EPSG:3857",locAr.map(Number)));
+        map.getView().animate({
+          zoom: 15,
+          duration: 250
+        })
+  }
+  else{
+    alert("DMS Input Missing !!")
+  }
+}
+// function ParseDMS(input) {
+//   var parts = input.split(/[^\d\w\.]+/);    
+//   var lat = ConvertDMSToDD(parts[0], parts[2], parts[3], parts[4]);
+//   var lng = ConvertDMSToDD(parts[5], parts[7], parts[8], parts[9]);
+
+//   return {
+//       Latitude : lat,
+//       Longitude: lng,
+//       Position : lat + ',' + lng
+//   }
+// }
+
+
+function ConvertDMSToDD(degrees, minutes, seconds, direction) {   
+  var dd = Number(degrees) + Number(minutes)/60 + Number(seconds)/(60*60);
+
+  if (direction == "S" || direction == "W") {
+      dd = dd * -1;
+  } // Don't do anything for N or E
+  return dd;
 }

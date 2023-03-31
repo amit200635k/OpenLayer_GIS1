@@ -173,7 +173,7 @@ a {
 	display: flex;
 	align-items: center;
 	justify-content: left;
-	padding: 8px 15px;
+	padding: 3px 15px;
 	font-size: 15px;
 	color: #5f5f5f;
 	outline-width: 0;
@@ -2888,7 +2888,9 @@ table.table-bordered.dataTable th, table.table-bordered.dataTable td {
     height: 86% !important;
 }
 .mm-collapse.mm-show{
-	color: white;display: block;
+	color: white;display: block;  
+	  /* max-height: 350px;
+    overflow-y: scroll; */
 }
 .mm-collapse.mm-show  ul.mm-collapse {
 	display: block;
@@ -2914,7 +2916,7 @@ table.table-bordered.dataTable th, table.table-bordered.dataTable td {
   }
   div#toggleDataDiv {
 	position: absolute;
-	bottom: 50px;
+	top: 50px;
 	right: 20px;
 	background: #d3eeff;
 	padding: 10px;
@@ -2929,6 +2931,7 @@ table.table-bordered.dataTable th, table.table-bordered.dataTable td {
 	  min-height: 100px;
 	  max-height: 200px;
 	  overflow: scroll;    width: 100vw;
+	  display: none;
   }
   #hideTableDiv i{
 	font-size: 20px;
@@ -2936,3 +2939,109 @@ table.table-bordered.dataTable th, table.table-bordered.dataTable td {
   #hideTableDiv {
 	float: right;
   }
+  #dataTableDiv.show{
+	display: block !important;
+  }
+  .ShowHideDataTable {
+	left: 7px;
+    top: 125px;
+	background: red;
+  }
+  #popup .accordion-button {
+	font-size: 0.6rem;color: black;
+    background: #ffffd4;
+  }
+  #popup .accordion-body{
+	padding: 3px;font-size: 11px;    color: black;
+  }
+  .form-control-sm{
+	width: 100%;
+  }
+.accordion-body {
+	max-height: 350px;
+    overflow-y: scroll;
+}
+.accordion-body::-webkit-scrollbar {
+	/* display: none; */
+	width: 2px;
+  }
+.accordion-body::-webkit-scrollbar-track {
+	background: white; 
+  }
+  .accordion-body::-webkit-scrollbar-thumb {
+	background: yellow; 
+  }
+  .smallTxt{
+	font-size: 10px;
+  }
+  #dmsSection>.col-3{
+	padding: 0;
+  }
+
+  ul, #myUL {
+	list-style-type: none;
+  }
+  
+  #myUL {
+	margin: 0;
+	padding: 10px 5px 0 15px;
+  }
+  
+  .box {
+	cursor: pointer;
+	-webkit-user-select: none; /* Safari 3.1+ */
+	-moz-user-select: none; /* Firefox 2+ */
+	-ms-user-select: none; /* IE 10+ */
+	user-select: none;
+  }
+  
+  .box::before {
+	content: "+";
+	color: white;
+	display: inline-block;
+	margin-right: 6px;
+  }
+  
+  .check-box::before {
+	content: "-"; 
+	color: white;
+  }
+  
+  .nested {
+	display: none;
+  }
+  
+  .active {
+	display: block;
+  }
+
+  #myUL >  div {
+	/* display: flow-root;margin-top: 5px; */
+	padding: 5px 0px;
+    display: flow-root;
+    width: 100%;
+  }
+  #myUL > div > span {
+	float: left;
+}
+#myUL >div > fieldset {
+
+}
+.visible {
+    margin-left: 3px;
+}
+#myUL >  div > .nested {
+	margin-left: 10px;
+}
+#myUL >  div > .nested > div  {
+	float: left;
+	display: block;
+    width: 100%;
+}
+#myUL > div > .nested > div > span {
+	float: left; 
+	color: #ffeb00;
+}
+#myUL >  div > .nested > div > fieldset {
+
+}

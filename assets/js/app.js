@@ -54,6 +54,18 @@ $(function() {
 		$("#menu").metisMenu()
 	})
  }
+
+ var toggler = document.getElementsByClassName("box");
+ var i;
+ 
+ for (i = 0; i < toggler.length; i++) {
+   toggler[i].addEventListener("click", function() {
+	 this.parentElement.querySelector(".nested").classList.toggle("active");
+	 this.classList.toggle("check-box");
+   });
+ }
+
+
  $("#dataTableDiv").attr("style","width: 80% !important;");
  $("#dataTableDiv").hide(); 
 
@@ -171,3 +183,19 @@ function logout(){
 	sessionStorage.clear();
 	location.replace("index.html");
 }
+
+$(document).on("click", "#popup .accordion-button", function(){
+	//$trigger.first().addClass('active').next().hide();
+
+	let faqs = $("#popup .accordion-collapse");
+	//$(".faq_title").click(function () {
+	  //faqs.slideUp();
+	  faqs.removeClass("show");
+	  //faqs.prev().removeClass("show");
+	 // faqs.next().removeClass("show");
+	 // $(this).next().slideDown();
+	 $(this).addClass("show");
+	  return false;
+	//});
+
+})

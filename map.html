@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" class="semi-dark">
+
 <head>
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
@@ -26,12 +27,10 @@
 	<link rel="stylesheet" href="./assets/printer/bootstrap.min.css">
 	<link rel="stylesheet" href="./assets/printer/ol-pdf-printer.css">
 	<script>
-		if(sessionStorage.length === '0' || sessionStorage.getItem("accessTokenAccident")=== null)
-		{
-		sessionStorage.clear();
-		location.replace("index.html");
-	}
-	
+		if (sessionStorage.length === '0' || sessionStorage.getItem("accessTokenAccident") === null) {
+			sessionStorage.clear();
+			location.replace("index.html");
+		}
 	</script>
 	<title>Admin Panel</title>
 </head>
@@ -61,9 +60,275 @@
 				<li><a href="javascript:;" class="has-arrow">
 						<div class="parent-icon"><i class='bx bx-layer'></i></div>
 						<div class="menu-title">Layers</div>
-					</a>
+					</a> 
 					<ul>
-						<li id="layertree">
+						<div id="myUL">
+							<!-- <div class="nestedLi"><span class="box">Click to Show Layers</span>
+							  <div class="nested"> -->
+								<div class="d-none"><span>OSM layer</span>
+									<fieldset class="fieldset" id="layer0">
+										<label class="checkbox" for="visible0"> <input id="visible0" class="visible"
+												type="checkbox" />
+										</label>
+										<label> <input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								</div>
+								<div class="d-none"><span>Google Sattelite</span>
+									<fieldset class="fieldset" id="layer1">
+										<label class="checkbox" for="visible1"> <input id="visible1" class="visible"
+												type="checkbox" />
+										</label>
+										<label> <input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								</div>
+								<div class="d-none"><span>Google Hybrid</span>
+									<fieldset class="fieldset" id="layer2">
+										<label class="checkbox" for="visible2"> <input id="visible2" class="visible"
+												type="checkbox" />
+										</label>
+										<label> <input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								</div>
+								<div class="d-none"><span>Google Streets</span>
+									<fieldset class="fieldset" id="layer3">
+										<label class="checkbox" for="visible3"> <input id="visible3" class="visible"
+												type="checkbox" />
+										</label>
+										<label> <input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								</div>
+								<div class="d-none"><span>Google Terrain</span>
+									<fieldset class="fieldset" id="layer4">
+										<label class="checkbox" for="visible4"> <input id="visible4" class="visible"
+												type="checkbox" />
+										</label>
+										<label> <input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								</div>
+								<div class="d-none"><span>Bing Aerial Map</span>
+									<fieldset class="fieldset" id="layer5">
+										<label class="checkbox" for="visible5"> <input id="visible5" class="visible"
+												type="checkbox" />
+										</label>
+										<label> <input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								</div>
+								<div><span class="box">Administrative Layers</span>
+									<fieldset class="fieldset" id="layer6">
+										<label class="checkbox" for="visible6">
+											<input id="visible6" class="visible" type="checkbox" />
+										</label>
+										<label>
+											<input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								  <div class="nested">
+									<div>
+										<span>State Boundary</span>
+										<fieldset class="fieldset" id="layer60">
+											<img class="legendimg"
+												src="http://localhost:8880/geoserver/UAVDATA/wms?REQUEST=GetLegendGraphic&amp;VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=15&amp;HEIGHT=15&amp;LAYER=UAVDATA:State_Boundary_Jhar0">
+											<label class="checkbox" for="visible60">
+												<input id="visible60" class="visible" type="checkbox"
+													data-layrname="0_stateBoundary" />
+											</label>
+											<label>
+												<input class="opacity" type="range" min="0" max="1" step="0.01" />
+											</label>
+										</fieldset>
+									</div>
+									<div>
+										<span>District Boundary</span>
+										<fieldset class="fieldset" id="layer61">
+											<label class="checkbox" for="visible61">
+												<input id="visible61" class="visible" type="checkbox"
+													data-layrname="1_districtBoundary" />
+											</label>
+											<label>
+												<input class="opacity" type="range" min="0" max="1" step="0.01" />
+											</label>
+										</fieldset>
+									</div>
+									<div>
+										<span>Panchayat Boundary</span>
+										<fieldset class="fieldset" id="layer62">
+											<label class="checkbox" for="visible62">
+												<input id="visible62" class="visible" type="checkbox"
+													data-layrname="2_panchayatBoundary" />
+											</label>
+											<label>
+												<input class="opacity" type="range" min="0" max="1" step="0.01" />
+											</label>
+										</fieldset>
+									</div>
+									<div>
+										<span>Village Boundary</span>
+										<fieldset class="fieldset" id="layer63">
+											<label class="checkbox" for="visible63">
+												<input id="visible63" class="visible" type="checkbox"
+													data-layrname="3_villageBoundary" />
+											</label>
+											<label>
+												<input class="opacity" type="range" min="0" max="1" step="0.01" />
+											</label>
+										</fieldset>
+									</div>
+									<!-- <div>Black Tea</div>
+									<div>White Tea</div>
+									<div><span class="box">Green Tea</span>
+									  <div class="nested">
+										<div>Sencha</div>
+										<div>Gyokuro</div>
+										<div>Matcha</div>
+										<div>Pi Lo Chun</div>
+									  </div>
+									</div> -->
+								  </div>
+								</div> 
+								<div><span class="box">Infrastructure</span>
+									<fieldset class="fieldset" id="layer6">
+										<label class="checkbox" for="visible6">
+											<input id="visible6" class="visible" type="checkbox" />
+										</label>
+										<label>
+											<input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								  <div class="nested">
+									<div>
+										<span>State Boundary</span>
+										<fieldset class="fieldset" id="layer60">
+											<img class="legendimg"
+												src="http://localhost:8880/geoserver/UAVDATA/wms?REQUEST=GetLegendGraphic&amp;VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=15&amp;HEIGHT=15&amp;LAYER=UAVDATA:State_Boundary_Jhar0">
+											<label class="checkbox" for="visible60">
+												<input id="visible60" class="visible" type="checkbox"
+													data-layrname="0_stateBoundary" />
+											</label>
+											<label>
+												<input class="opacity" type="range" min="0" max="1" step="0.01" />
+											</label>
+										</fieldset>
+									</div>
+									<div>
+										<span>District Boundary</span>
+										<fieldset class="fieldset" id="layer61">
+											<label class="checkbox" for="visible61">
+												<input id="visible61" class="visible" type="checkbox"
+													data-layrname="1_districtBoundary" />
+											</label>
+											<label>
+												<input class="opacity" type="range" min="0" max="1" step="0.01" />
+											</label>
+										</fieldset>
+									</div>
+									<div>
+										<span>Panchayat Boundary</span>
+										<fieldset class="fieldset" id="layer62">
+											<label class="checkbox" for="visible62">
+												<input id="visible62" class="visible" type="checkbox"
+													data-layrname="2_panchayatBoundary" />
+											</label>
+											<label>
+												<input class="opacity" type="range" min="0" max="1" step="0.01" />
+											</label>
+										</fieldset>
+									</div>
+									<div>
+										<span>Village Boundary</span>
+										<fieldset class="fieldset" id="layer63">
+											<label class="checkbox" for="visible63">
+												<input id="visible63" class="visible" type="checkbox"
+													data-layrname="3_villageBoundary" />
+											</label>
+											<label>
+												<input class="opacity" type="range" min="0" max="1" step="0.01" />
+											</label>
+										</fieldset>
+									</div>
+									<!-- <div>Black Tea</div>
+									<div>White Tea</div>
+									<div><span class="box">Green Tea</span>
+									  <div class="nested">
+										<div>Sencha</div>
+										<div>Gyokuro</div>
+										<div>Matcha</div>
+										<div>Pi Lo Chun</div>
+									  </div>
+									</div> -->
+								  </div>
+								</div> 
+								<div><span class="box">Facilities</span>
+									<fieldset class="fieldset" id="layer6">
+										<label class="checkbox" for="visible6">
+											<input id="visible6" class="visible" type="checkbox" />
+										</label>
+										<label>
+											<input class="opacity" type="range" min="0" max="1" step="0.01" />
+										</label>
+									</fieldset>
+								  <div class="nested">
+									<div>
+										<span>Hospital</span>
+										<fieldset class="fieldset" id="layer60">
+											<img class="legendimg"
+												src="http://localhost:8880/geoserver/UAVDATA/wms?REQUEST=GetLegendGraphic&amp;VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=15&amp;HEIGHT=15&amp;LAYER=UAVDATA:State_Boundary_Jhar0">
+											<label class="checkbox" for="visible60">
+												<input id="visible60" class="visible" type="checkbox"
+													data-layrname="0_stateBoundary" />
+											</label>
+											<label>
+												<input class="opacity" type="range" min="0" max="1" step="0.01" />
+											</label>
+										</fieldset>
+									</div>
+									<div>
+										<span>Schools</span>
+										<fieldset class="fieldset" id="layer61">
+											<label class="checkbox" for="visible61">
+												<input id="visible61" class="visible" type="checkbox"
+													data-layrname="1_districtBoundary" />
+											</label>
+											<label>
+												<input class="opacity" type="range" min="0" max="1" step="0.01" />
+											</label>
+										</fieldset>
+									</div>
+									<div>
+										<span>Police Stations</span>
+										<fieldset class="fieldset" id="layer62">
+											<label class="checkbox" for="visible62">
+												<input id="visible62" class="visible" type="checkbox"
+													data-layrname="2_panchayatBoundary" />
+											</label>
+											<label>
+												<input class="opacity" type="range" min="0" max="1" step="0.01" />
+											</label>
+										</fieldset>
+									</div>
+									<div>
+										<span>Polling Booth</span>
+										<fieldset class="fieldset" id="layer63">
+											<label class="checkbox" for="visible63">
+												<input id="visible63" class="visible" type="checkbox"
+													data-layrname="3_villageBoundary" />
+											</label>
+											<label>
+												<input class="opacity" type="range" min="0" max="1" step="0.01" />
+											</label>
+										</fieldset>
+									</div> 
+								  </div>
+								<!-- </div> 
+							  </div> -->
+							</div>
+						  </div>
+						<!-- <li id="layertree" class="d-none"> 
 							<ul>
 								<li class="d-none"><span>OSM layer</span>
 									<fieldset class="fieldset" id="layer0">
@@ -182,7 +447,7 @@
 									</ul>
 								</li>
 							</ul>
-						</li>
+						</li> -->
 					</ul>
 				</li>
 				<li><a href="javascript:;" class="has-arrow">
@@ -205,24 +470,25 @@
 										<div class="accordion-body">
 											<label for="type">Measurement type </label>
 											<select id="Measurementtype">
-											  <option value="LineString">Length (LineString)</option>
-											  <option value="Polygon">Area (Polygon)</option>
+												<option value="LineString">Length (LineString)</option>
+												<option value="Polygon">Area (Polygon)</option>
 											</select>
-											<br/>
+											<br />
 											<label for="segments">Show segment lengths:</label>
 											<input type="checkbox" id="Measurementsegments" checked />
-											<br/>
+											<br />
 											<label for="clear">Clear previous measure:</label>
 											<input type="checkbox" id="Measurementclear" checked />
 											<div class="row">
 												<div class="col-md-12">
-													<div id="startMeasure" class="btn btn-sm btn-info">Start</div><div id="EndMeasure" class="btn btn-sm btn-secondary">End</div>
+													<div id="startMeasure" class="btn btn-sm btn-info">Start</div>
+													<div id="EndMeasure" class="btn btn-sm btn-secondary">End</div>
 												</div>
-												<div class="col-md-12"> 
+												<div class="col-md-12">
 													<div id="measurementLength"></div>
 												</div>
 											</div>
-											
+
 										</div>
 									</div>
 								</div>
@@ -239,35 +505,42 @@
 										<div class="accordion-body">
 											<div class="row g-3X align-items-centerX">
 												<div class="col-auto">
-												  <label for="selectKMLfile" class="col-form-label">Add KML</label>
+													<label for="selectKMLfile" class="col-form-label">Add KML</label>
 												</div>
 												<div class="col-auto">
-													<input id="selectKMLfile" class="form-control-sm" type="file" accept=".kml">
-												</div> 
-											  </div>
-											  <div class="row g-3X align-items-centerX">
+													<input id="selectKMLfile" class="form-control-sm" type="file"
+														accept=".kml">
+												</div>
+											</div>
+											<div class="row g-3X align-items-centerX">
 												<div class="col-auto">
-												  <label for="selectGISfile" class="col-form-label">Add GPX, GeoJSON, IGC, KML, TopoJSON</label>
+													<label for="selectGISfile" class="col-form-label">Add GPX, GeoJSON,
+														IGC, KML, TopoJSON</label>
 												</div>
 												<div class="col-auto">
-													<input id="selectGISfile" class="form-control-sm" type="file" accept=".kml,.gpx,.geojson,.igc,.json">
-												</div> 
-											  </div>
-											  <label><input type="checkbox" id="extractstyles" checked /> Extract styles from KML</label>
-											  <h6 class="text-white">
+													<input id="selectGISfile" class="form-control-sm" type="file"
+														accept=".kml,.gpx,.geojson,.igc,.json">
+												</div>
+											</div>
+											<label><input type="checkbox" id="extractstyles" checked /> Extract styles
+												from KML</label>
+											<h6 class="text-white">
 												or Just Drag & Drop file over map.
-											  </h6>
-											  <div class="row g-3X align-items-centerX">
+											</h6>
+											<div class="row g-3X align-items-centerX">
 												<div class="col-auto">
-												  <label for="selectSHPfile" class="col-form-label">Add Shapefile</label>
+													<label for="selectSHPfile" class="col-form-label">Add
+														Shapefile</label>
 												</div>
 												<div class="col-auto">
-													<input id="selectSHPfile" class="form-control-sm" type="file" accept=".zip,.shp,.dbf">
-												</div> 
-											  </div>
-											  <div class="row mt-3">
-												<span class="btn btn-sm btn-secondary" id="removeOnFLyData">Remove Preview</span>
-											  </div>
+													<input id="selectSHPfile" class="form-control-sm" type="file"
+														accept=".zip,.shp,.dbf">
+												</div>
+											</div>
+											<div class="row mt-3">
+												<span class="btn btn-sm btn-secondary" id="removeOnFLyData">Remove
+													Preview</span>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -283,29 +556,107 @@
 										aria-labelledby="headingThree" data-bs-parent="#accordionExample">
 										<div class="accordion-body">
 											<div class="row">
-												<div class="col-9" id="geocodeDIv"> 
-													<div id="geocodeBtn" class="btn btn-sm btn-info">Search Address on Map(Geocode)</div> 
+												<div class="col-9" id="geocodeDIv">
+													<div id="geocodeBtn" class="btn btn-sm btn-info">Search Address on
+														Map(Geocode)</div>
 												</div>
-												<div class="col-3"> 
-													<div id="geocodeClearBtn" class="btn btn-sm btn-dark">Clear</div> 
+												<div class="col-3">
+													<div id="geocodeClearBtn" class="btn btn-sm btn-dark">Clear</div>
 												</div>
 											</div>
 											<div class="row mt-3">
-												<div class="col-12"> 
-													<p><strong>Geolocate Yourself:</strong></p>												
-												<label for="track">
-													track position
-													<input id="track" type="checkbox"/>
-												</label>
-												<p>
-													position accuracy : <code id="accuracy"></code>&nbsp;&nbsp;
-													altitude : <code id="altitude"></code>&nbsp;&nbsp;
-													altitude accuracy : <code id="altitudeAccuracy"></code>&nbsp;&nbsp;
-													heading : <code id="heading"></code>&nbsp;&nbsp;
-													speed : <code id="speed"></code>
-												</p>
+												<div class="col-12">
+													<p><strong>Geolocate Yourself:</strong></p>
+													<label for="track">
+														track position
+														<input id="track" type="checkbox" />
+													</label>
+													<p>
+														position accuracy : <code id="accuracy"></code>&nbsp;&nbsp;
+														altitude : <code id="altitude"></code>&nbsp;&nbsp;
+														altitude accuracy : <code
+															id="altitudeAccuracy"></code>&nbsp;&nbsp;
+														heading : <code id="heading"></code>&nbsp;&nbsp;
+														speed : <code id="speed"></code>
+													</p>
+												</div>
 											</div>
-										</div>
+											<hr />
+											<div class="row mt-3">
+												<div class="col-12">
+													<h6 class="text-white">View Lat Long on Map:</h6>
+												</div>
+												<div class="col-4">
+													Latitude
+												</div>
+												<div class="col-8">
+													<input type="number" class="form-control-sm" name="lats" id="lats"
+														value="23.25965563" step="0.000001" />
+												</div>
+												<div class="col-4">
+													Longitude
+												</div>
+												<div class="col-8">
+													<input type="number" class="form-control-sm" name="longs" id="longs"
+														value="85.985662" step="0.000001" />
+												</div>
+												<div class="col-8 offset-md-2">
+													<div id="latlongMap" class="btn btn-sm btn-primary">View on Map
+													</div>
+												</div>
+											</div>
+											<hr />
+											<div class="row mt-3" id="dmsSection">
+												<div class="col-12">
+													<h6 class="text-white">Search by DMS:</h6>
+												</div>
+												<div class="col-sm-12">
+													<small class="smallTxt">Enter Degrees Minutes Seconds
+														latitude:</small>
+												</div>
+												<div class="col-3">
+													<input type="text" class="form-control-sm" name="ltDegree" id="ltDegree" value="23" placeholder="Degree"/>
+												</div>
+												<div class="col-3">
+													<input type="text" class="form-control-sm" name="ltMinutes" id="ltMinutes" value="18" placeholder="Minutes"/>
+												</div>
+												<div class="col-3">
+													<input type="text" class="form-control-sm" name="ltSeconds" id="ltSeconds" value="13.288" placeholder="Seconds"/>
+												</div>
+												<div class="col-3">
+													<select id="latdirection" class="form-control-sm">
+														<option value="N">N</option>
+														<option value="E">E</option>
+														<option value="S">S</option>
+														<option value="W">W</option>
+													</select>
+												</div>
+												<div class="col-sm-12">
+													<small class="smallTxt">Enter Degrees Minutes Seconds
+														Longitude:</small>
+												</div>
+												<div class="col-3">
+													<input type="text" class="form-control-sm" name="lnDegree" id="lnDegree" value="85" placeholder="Degree"/>
+												</div>
+												<div class="col-3">
+													<input type="text" class="form-control-sm" name="lnMinutes" id="lnMinutes" value="17" placeholder="Minutes"/>
+												</div>
+												<div class="col-3">
+													<input type="text" class="form-control-sm" name="lnSeconds" id="lnSeconds" value="13.348" placeholder="Seconds"/>
+												</div>
+												<div class="col-3">
+													<select id="lngdirection" class="form-control-sm">
+														<option value="N">N</option>
+														<option value="E">E</option>
+														<option value="S">S</option>
+														<option value="W">W</option>
+													</select>
+												</div>
+												<div class="col-8 offset-md-2">
+													<div id="latlongDMSMap" class="btn btn-sm btn-primary">View on Map
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -323,32 +674,32 @@
 											<form id="printForm" class="form">
 												<label for="format">Page size </label>
 												<select id="format" class="form-select">
-												  <option value="a0">A0 (slow)</option>
-												  <option value="a1">A1</option>
-												  <option value="a2">A2</option>
-												  <option value="a3">A3</option>
-												  <option value="a4" selected>A4</option>
-												  <option value="a5">A5 (fast)</option>
+													<option value="a0">A0 (slow)</option>
+													<option value="a1">A1</option>
+													<option value="a2">A2</option>
+													<option value="a3">A3</option>
+													<option value="a4" selected>A4</option>
+													<option value="a5">A5 (fast)</option>
 												</select>
 												<label for="resolution">Resolution </label>
 												<select id="resolution" class="form-select">
-												  <option value="72">72 dpi (fast)</option>
-												  <option value="100" selected>100 dpi</option>
-												  <option value="150">150 dpi</option>
-												  <option value="200" >200 dpi</option>
-												  <option value="300">300 dpi (slow)</option>
+													<option value="72">72 dpi (fast)</option>
+													<option value="100" selected>100 dpi</option>
+													<option value="150">150 dpi</option>
+													<option value="200">200 dpi</option>
+													<option value="300">300 dpi (slow)</option>
 												</select>
 												<label for="scale" class="d-none">Scale </label>
 												<select id="scale" class="form-select d-none">
-												  <option value="500" selected>1:500000</option>
-												  <option value="250" >1:250000</option>
-												  <option value="100">1:100000</option>
-												  <option value="50">1:50000</option>
-												  <option value="25">1:25000</option>
-												  <option value="10">1:10000</option>
+													<option value="500" selected>1:500000</option>
+													<option value="250">1:250000</option>
+													<option value="100">1:100000</option>
+													<option value="50">1:50000</option>
+													<option value="25">1:25000</option>
+													<option value="10">1:10000</option>
 												</select>
-											  </form>
-											  <button id="export-pdf">Export PDF</button>
+											</form>
+											<button id="export-pdf">Export PDF</button>
 										</div>
 									</div>
 								</div>
@@ -366,38 +717,38 @@
 											<form id="aoiForm" class="form">
 												<div class="form-group row">
 													<label for="dname" class="col-sm-4 col-form-label">District</label>
-													<div class="col-sm-7">
-													   <select id="dname" name="dname" class="form-control-sm">
-														<option value="">==Select District==</option>
-														<option value="85.999,24.999">Ranchi</option>
-													   </select>
+													<div class="col-sm-8">
+														<select id="dname" name="dname" class="form-control-sm">
+															<option value="">==Select District==</option>
+															<option value="85.999,24.999">Ranchi</option>
+														</select>
 													</div>
-												  </div>
-												  <div class="form-group row mt-1">
+												</div>
+												<div class="form-group row mt-1">
 													<label for="bname" class="col-sm-4 col-form-label">Block</label>
-													<div class="col-sm-7">
-													   <select id="bname" name="bname" class="form-control-sm">
-														<option value="">==Select Block==</option>
-														<!-- <option value="MULTIPOLYGON(((84.981299322 23.7056352650001,84.9821293910001 23.7053978020001,84.9836399170001 23.7055295220001,84.9840468460001 23.7055650040001,84.9855557760001 23.7052979940001,84.9867299960001 23.7052568460001,84.9875283420001 23.7052288630001,84.9885 (...)">Ranchi</option> -->
-													   </select>
+													<div class="col-sm-8">
+														<select id="bname" name="bname" class="form-control-sm">
+															<option value="">==Select Block==</option>
+															<!-- <option value="MULTIPOLYGON(((84.981299322 23.7056352650001,84.9821293910001 23.7053978020001,84.9836399170001 23.7055295220001,84.9840468460001 23.7055650040001,84.9855557760001 23.7052979940001,84.9867299960001 23.7052568460001,84.9875283420001 23.7052288630001,84.9885 (...)">Ranchi</option> -->
+														</select>
 													</div>
-												  </div>
-												  <div class="form-group row mt-1">
+												</div>
+												<div class="form-group row mt-1">
 													<label for="pname" class="col-sm-4 col-form-label">Panchayat</label>
-													<div class="col-sm-7">
-													   <select id="pname" name="pname" class="form-control-sm">
-														<option value="">==Select Panchayat==</option> 
-													   </select>
+													<div class="col-sm-8">
+														<select id="pname" name="pname" class="form-control-sm">
+															<option value="">==Select Panchayat==</option>
+														</select>
 													</div>
-												  </div>
-												  <div class="form-group row mt-1">
+												</div>
+												<div class="form-group row mt-1">
 													<label for="vname" class="col-sm-4 col-form-label">Village</label>
-													<div class="col-sm-7">
-													   <select id="vname" name="vname" class="form-control-sm">
-														<option value="">==Select Village==</option> 
-													   </select>
+													<div class="col-sm-8">
+														<select id="vname" name="vname" class="form-control-sm">
+															<option value="">==Select Village==</option>
+														</select>
 													</div>
-												  </div>
+												</div>
 											</form>
 										</div>
 									</div>
@@ -406,7 +757,7 @@
 						</li>
 					</ul>
 				</li>
-				
+
 				<li><a href="javascript:;" class="has-arrowX">
 						<div class="parent-icon"><i class='bx bx-radio-circle-marked'></i></div>
 						<div class="menu-title">
@@ -422,33 +773,33 @@
 					</a>
 				</li>
 				<li><a>
-					<div class="parent-icon"><i class='bx bxs-polygon'></i></div>
-					<div class="menu-title">
-						Feature Selection
-						<span id="mapInfostatus">&nbsp;</span>
-						<select id="type">
-							<option value="singleselect" selected>Single Select</option>
-							<option value="multiselect">Multi Select</option>
-							<option value="singleselect-hover">Single Select on hover</option>
-						  </select>
-					</div>
-				</a>
-			</li>
-			<li><a>
-				<div class="parent-icon"><i class="bx bxs-map-alt"></i></div>
-				<div class="menu-title">Legend 
-					<div class="row">
-						<div class="col-12" >
-							<img id="legend" src="./assets/images/avatars/avatar-2.png" class="img-fluidX"/>
+						<div class="parent-icon"><i class='bx bxs-polygon'></i></div>
+						<div class="menu-title">
+							Feature Selection
+							<span id="mapInfostatus">&nbsp;</span>
+							<select id="type">
+								<option value="singleselect" selected>Single Select</option>
+								<option value="multiselect">Multi Select</option>
+								<option value="singleselect-hover">Single Select on hover</option>
+							</select>
 						</div>
-					</div> 
-				</div>
-				</a>
-			</li>
-			<li><a href="javascript:logout();">
-				<div class="parent-icon"><i class="bx bx-log-out-circle"></i></div>
-				<div class="menu-title">Logout</div>
-			</a></li>
+					</a>
+				</li>
+				<li><a>
+						<div class="parent-icon"><i class="bx bxs-map-alt"></i></div>
+						<div class="menu-title">Legend
+							<div class="row">
+								<div class="col-12">
+									<img id="legend" src="./assets/images/avatars/avatar-2.png" class="img-fluidX" />
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li><a href="javascript:logout();">
+						<div class="parent-icon"><i class="bx bx-log-out-circle"></i></div>
+						<div class="menu-title">Logout</div>
+					</a></li>
 			</ul>
 			<!--end navigation-->
 		</div>
@@ -525,7 +876,7 @@
 							</div>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-end">
-					 
+
 							<li><a class="dropdown-item" href="javascript:logout();"><i
 										class="bx bx-log-out-circle"></i><span>Logout</span></a></li>
 						</ul>
@@ -548,7 +899,7 @@
 				<div id="popup" class="ol-popup">
 					<a href="#" id="popup-closer" class="ol-popup-closer"></a>
 					<div id="popup-content"></div>
-				  </div>
+				</div>
 			</div>
 		</div>
 		<!--end page wrapper -->
@@ -573,24 +924,24 @@
 	<script src="assets/js/app.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<!--plugins-->
-	
+
 	<!-- <script src="assets/plugins/simplebar/js/simplebar.min.js"></script> -->
 	<script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
 	<script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
 	<script src="https://gipong.github.io/shp2geojson.js/lib/jszip.js"></script>
-    <script src="https://gipong.github.io/shp2geojson.js/lib/jszip-utils.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.1/proj4.js"></script>
-    <script src="https://gipong.github.io/shp2geojson.js/preprocess.js"></script>
-    <script src="https://gipong.github.io/shp2geojson.js/preview.js"></script>
+	<script src="https://gipong.github.io/shp2geojson.js/lib/jszip-utils.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.1/proj4.js"></script>
+	<script src="https://gipong.github.io/shp2geojson.js/preprocess.js"></script>
+	<script src="https://gipong.github.io/shp2geojson.js/preview.js"></script>
 	<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 	<script src="https://unpkg.com/pdfjs-dist@latest/build/pdf.js"></script> -->
 	<!-- 
 	<script src="https://cdn.jsdelivr.net/npm/ol-geocoder"></script> -->
 	<script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-  <script src="https://unpkg.com/pdfjs-dist@latest/build/pdf.js"></script>
-	 <!-- <script src="./assets/printer/ol-pdf-printer.js"></script> -->
-	
+	<script src="https://unpkg.com/pdfjs-dist@latest/build/pdf.js"></script>
+	<!-- <script src="./assets/printer/ol-pdf-printer.js"></script> -->
+
 	<script type="module" src="./main.js"></script>
 </body>
 
